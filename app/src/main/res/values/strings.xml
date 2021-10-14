@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">StatusBoard</string>
+
+    <string-array name="boards">
+        <item>Board1</item>
+        <item>Board2</item>
+        <item>Board3</item>
+        <item>Board4</item>
+        <item>Board5</item>
+    </string-array>
+
+    <string-array name="descriptions">
+        <item>Random Description1</item>
+        <item>Random Description2</item>
+        <item>Random Description3</item>
+        <item>Random Description4</item>
+        <item>Random Description5</item>
+    </string-array>
+</resources>
