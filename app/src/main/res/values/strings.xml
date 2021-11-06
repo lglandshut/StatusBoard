@@ -1,19 +1,17 @@
 <resources>
     <string name="app_name">StatusBoard</string>
+    <string name="title_activity_board">BoardActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 
-    <string-array name="boards">
-        <item>Board1</item>
-        <item>Board2</item>
-        <item>Board3</item>
-        <item>Board4</item>
-        <item>Board5</item>
-    </string-array>
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="your_boards">Your Boards</string>
+    <string name="add">Add</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
 
-    <string-array name="descriptions">
-        <item>Random Description1</item>
-        <item>Random Description2</item>
-        <item>Random Description3</item>
-        <item>Random Description4</item>
-        <item>Random Description5</item>
-    </string-array>
 </resources>

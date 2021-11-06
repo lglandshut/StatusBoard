@@ -11,9 +11,9 @@ public class Board {
     List<Status> list = new ArrayList<Status>();
     String name, description;
 
-    public Board (String name, String description, List<Status> liste){
+    public Board (String name, String description){
         this.name = name;
         this.description = description;
-        this.list = liste;
+        this.list = list;
     }
 }
