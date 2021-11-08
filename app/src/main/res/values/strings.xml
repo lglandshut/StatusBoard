@@ -13,5 +13,9 @@
     <string name="add">Add</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="board_dialog_error_text">Choose a name for the board!</string>
+    <string name="create">Create</string>
 
 </resources>

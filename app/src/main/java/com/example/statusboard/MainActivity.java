@@ -1,40 +1,49 @@
 package com.example.statusboard;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import com.example.statusboard.databinding.ActivityMainBinding;
+import com.example.statusboard.databinding.AddBoardDialogBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AlertDialog dialog;
-    private EditText popup_name, popup_description;
-    private final List<Board> list = new ArrayList<>();
+    private static final String TAG = "StatusBoardApp";
+    private ActivityMainBinding binding;
+    private AlertDialog newBoardDialog;
+    private final List<Board> boardList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        //create RecyclerView
-        RecyclerView recyclerView = findViewById(R.id.board_recycler_view);
-        MyAdapter myAdapter = new MyAdapter(this, list);
-        recyclerView.setAdapter(myAdapter);
+        final RecyclerView recyclerView = binding.boardRecyclerView;
+        final BoardAdapter boardAdapter = new BoardAdapter(boardList);
+        recyclerView.setAdapter(boardAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Button addBoardButton = findViewById(R.id.add_board_button);
-        addBoardButton.setOnClickListener(new View.OnClickListener() {
+
+//        Diese Zeile ist classic Android lol. Ändert nichts direkt an der funktionsweise, aber
+//        wenn die Größe von deinem RecyclerView sich nicht ändert kannst du des Flag auf true setzen
+//        Android macht im Hintergrund Sachen für die und verbessert die Performance
+//        https://stackoverflow.com/questions/28709220/understanding-recyclerview-sethasfixedsize
+        recyclerView.setHasFixedSize(true);
+
+        binding.addBoardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 createNewBoardDialog();
@@ -43,58 +52,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Creates Dialog window to add a new Board
-    public void createNewBoardDialog(){
-        TextView newText = new TextView(this);
-
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        final View contactPopupView = getLayoutInflater().inflate(R.layout.popup, null);
-        popup_name = (EditText) contactPopupView.findViewById(R.id.popup_name);
-        popup_description = (EditText) contactPopupView.findViewById(R.id.popup_description);
-        Button popup_save = (Button) contactPopupView.findViewById(R.id.popup_save);
-        Button popup_cancel = (Button) contactPopupView.findViewById(R.id.popup_cancel);
-
-
-        dialogBuilder.setView(contactPopupView);
-        dialog = dialogBuilder.create();
-        dialog.show();
-
-        //get name and add to list
-        popup_save.setOnClickListener(new View.OnClickListener() {
+    public void createNewBoardDialog() {
+        final AddBoardDialogBinding dialogBinding = AddBoardDialogBinding.inflate(getLayoutInflater());
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+//        dialogBuilder hat noch viele Methoden die du setzen kannst wie setMessage, setIcon,
+//        setNeutralButton, etc. Eigene Buttons implementieren ist an sich nicht falsch, aber
+//        die vom AlertDialog passen hier besser.
+        dialogBuilder.setTitle("Create new Board");
+        dialogBuilder.setPositiveButton(R.string.create, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
-                //if name is set
-                if(popup_name.getText().length() > 0){
-
+            public void onClick(DialogInterface dialog, int which) {
+                String newBoardName = dialogBinding.popupName.getText().toString().trim();
+                String newBoardDescription = dialogBinding.popupDescription.getText().toString().trim();
+                if (newBoardName.length() > 0 && newBoardDescription.length() > 0) {
                     //create Board object and add to list
-                    Board board = new Board(popup_name.getText().toString(), popup_description.getText().toString());
-                    list.add(board);
+                    Board board = new Board(newBoardName, newBoardDescription);
+                    Log.d(TAG, "onClick: created board= " + board.toString());
+                    boardList.add(board);
 
-                    dialog.dismiss();
+                    newBoardDialog.dismiss();
                 }
                 //if name has no input
                 else {
-                    TextView errorText = (TextView) contactPopupView.findViewById(R.id.errorText);
-                    errorText.setText("Choose a name!");
-                    errorText.setVisibility(View.VISIBLE);
+//                    Keine Hardcoded Strings verwenden, immer dafür in strings ne Ressource erstellen
+                    dialogBinding.errorText.setText(R.string.board_dialog_error_text);
+                    dialogBinding.errorText.setVisibility(View.VISIBLE);
                 }
-
-
             }
         });
 
-        //close dialog
-        popup_cancel.setOnClickListener(new View.OnClickListener() {
+        dialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+//                öfter logs benutzen, sind gut zum debuggen
+                Log.d(TAG, "onClick: canceled Dialog");
             }
         });
+        dialogBuilder.setView(dialogBinding.getRoot());
+        newBoardDialog = dialogBuilder.create();
+        newBoardDialog.show();
+
     }
 
     //open board when clicked on CardView
-    public void openBoard(View view){
-        Intent intent = new Intent(this,BoardActivity.class);
+    public void openBoard(View view) {
+        final Intent intent = new Intent(this, BoardActivity.class);
         startActivity(intent);
     }
 }

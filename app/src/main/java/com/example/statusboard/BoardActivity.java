@@ -1,15 +1,19 @@
 package com.example.statusboard;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.statusboard.databinding.ActivityBoardBinding;
+
 public class BoardActivity extends AppCompatActivity {
+    private ActivityBoardBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_board);
+        binding = ActivityBoardBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         createBoard();
     }
 
