@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private AlertDialog newBoardDialog;
     private final List<Board> boardList = new ArrayList<>();
+    private BoardAdapter boardAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +34,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         final RecyclerView recyclerView = binding.boardRecyclerView;
-        final BoardAdapter boardAdapter = new BoardAdapter(boardList);
+        boardAdapter = new BoardAdapter(boardList);
         recyclerView.setAdapter(boardAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-//        Diese Zeile ist classic Android lol. Ändert nichts direkt an der funktionsweise, aber
-//        wenn die Größe von deinem RecyclerView sich nicht ändert kannst du des Flag auf true setzen
-//        Android macht im Hintergrund Sachen für die und verbessert die Performance
-//        https://stackoverflow.com/questions/28709220/understanding-recyclerview-sethasfixedsize
         recyclerView.setHasFixedSize(true);
 
         binding.addBoardButton.setOnClickListener(new View.OnClickListener() {
@@ -59,24 +55,26 @@ public class MainActivity extends AppCompatActivity {
 //        setNeutralButton, etc. Eigene Buttons implementieren ist an sich nicht falsch, aber
 //        die vom AlertDialog passen hier besser.
         dialogBuilder.setTitle("Create new Board");
+
         dialogBuilder.setPositiveButton(R.string.create, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String newBoardName = dialogBinding.popupName.getText().toString().trim();
                 String newBoardDescription = dialogBinding.popupDescription.getText().toString().trim();
+                Log.d(TAG, ""+newBoardName.length()+ " " + newBoardDescription.length());
+                Log.d(TAG, ""+ (newBoardName.length() > 0 && newBoardDescription.length() > 0));
                 if (newBoardName.length() > 0 && newBoardDescription.length() > 0) {
                     //create Board object and add to list
                     Board board = new Board(newBoardName, newBoardDescription);
                     Log.d(TAG, "onClick: created board= " + board.toString());
-                    boardList.add(board);
-
+                    boardList.add(boardList.size(),board);
+                    boardAdapter.notifyItemInserted(boardList.size() +1);
                     newBoardDialog.dismiss();
                 }
                 //if name has no input
                 else {
-//                    Keine Hardcoded Strings verwenden, immer dafür in strings ne Ressource erstellen
-                    dialogBinding.errorText.setText(R.string.board_dialog_error_text);
-                    dialogBinding.errorText.setVisibility(View.VISIBLE);
+                    //dialogBinding.errorText.setText(R.string.board_dialog_error_text);
+                    //dialogBinding.errorText.setVisibility(View.VISIBLE);
                 }
             }
         });
