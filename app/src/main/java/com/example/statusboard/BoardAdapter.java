@@ -10,6 +10,9 @@ import com.example.statusboard.databinding.BoardItemBinding;
 
 import java.util.List;
 
+/*
+    Adapter for the list of Boards in Main Activity
+ */
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHolder> {
     @NonNull
     private final List<Board> boardList;
@@ -48,7 +51,8 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
 //        im ViewHolder ne Methode bind() zu erstellen wo die dein Layout befüllst und die Methode
 //        rufst du dann nur in onBindViewHolder() auf.
         public void bind(Board board) {
-            itemBinding.boardsTxt.setText(board.getName());
+
+            itemBinding.boardTxt.setText(board.getName());
             itemBinding.descriptionsTxt.setText(board.getDescription());
         }
     }

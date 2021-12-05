@@ -1,15 +1,11 @@
 package com.example.statusboard;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -87,14 +83,24 @@ public class MainActivity extends AppCompatActivity {
 
     //open board when clicked on CardView (onclick in xml)
     public void openBoard(View view) {
-        final Intent intent = new Intent(this, BoardActivity.class);
-        startActivity(intent);
+        String value="Hello world";
+        final Intent intend = new Intent(this, BoardActivity.class);
+        //TODO: neuer Activity das ausgewählte Board passen
+        //TODO: @Matteo: hier müsste ich Zugriff auf des ausgewählte Board bekommen, aber in der xml kann ich eben keine Paramter übergeben
+        //Deswegen brauch ich des ganze als onclicklistener
+        //intend.putExtra("board",board);
+        startActivity(intend);
     }
 
-    public void createEditBoardDialog(View view, Board board) {
+    //edit board when clicked on CardView wrench (oncklick in xml)
+    public void createEditBoardDialog(View view) {
+        //TODO: Formular mit Werten des zu bearbeitenden ÅBoards füllen, indem Button an Funtkion übergeben wird
+        //TODO: @Matteo: hier müsste ich Zugriff auf des ausgewählte Board bekommen, aber in der xml kann ich eben keine Paramter übergeben
+        //Deswegen brauch ich des ganze als onclicklistener
         final AddBoardDialogBinding dialogBinding = AddBoardDialogBinding.inflate(getLayoutInflater());
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        dialogBuilder.setTitle("Edit Board " +board.getName());
+        dialogBinding.textView.setText("Edit Board");
+        //dialogBuilder.setTitle("Edit Board " + board.getName());
 
         final Button button_save = dialogBinding.buttonSave;
         button_save.setOnClickListener(new View.OnClickListener() {
@@ -102,14 +108,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String newBoardName = dialogBinding.popupName.getText().toString().trim();
                 String newBoardDescription = dialogBinding.popupDescription.getText().toString().trim();
-                Log.d(TAG, ""+newBoardName.length()+ " " + newBoardDescription.length());
-                Log.d(TAG, ""+ (newBoardName.length() > 0 && newBoardDescription.length() > 0));
                 if (newBoardName.length() > 0) {
-                    //create Board object and add to list
-                    Board board = new Board(newBoardName, newBoardDescription);
-                    Log.d(TAG, "onClick: created board= " + board.toString());
-                    boardList.add(boardList.size(),board);
-                    boardAdapter.notifyItemInserted(boardList.size() +1);
+                    //Save new values to selected Board
+                    //board.setName(newBoardName);
+                    //board.setDescription(newBoardDescription);
                     newBoardDialog.dismiss();
                 }
                 //if name has no input

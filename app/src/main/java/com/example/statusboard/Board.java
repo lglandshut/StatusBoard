@@ -9,8 +9,9 @@ public class Board {
 
     @NonNull
     private final List<Status> statusList = new ArrayList<>();
+
     @NonNull
-    private final String name, description;
+    private String name, description;
 
     @NonNull
     public String getName() {
@@ -35,5 +36,13 @@ public class Board {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
+
+    public void setDescription(@NonNull String description) {
+        this.description = description;
     }
 }
