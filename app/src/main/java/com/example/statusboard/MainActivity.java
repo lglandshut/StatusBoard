@@ -5,7 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,19 +53,17 @@ public class MainActivity extends AppCompatActivity {
     public void createNewBoardDialog() {
         final AddBoardDialogBinding dialogBinding = AddBoardDialogBinding.inflate(getLayoutInflater());
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-//        dialogBuilder hat noch viele Methoden die du setzen kannst wie setMessage, setIcon,
-//        setNeutralButton, etc. Eigene Buttons implementieren ist an sich nicht falsch, aber
-//        die vom AlertDialog passen hier besser.
         dialogBuilder.setTitle("Create new Board");
 
-        dialogBuilder.setPositiveButton(R.string.create, new DialogInterface.OnClickListener() {
+        final Button button_save = dialogBinding.buttonSave;
+        button_save.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View view) {
                 String newBoardName = dialogBinding.popupName.getText().toString().trim();
                 String newBoardDescription = dialogBinding.popupDescription.getText().toString().trim();
                 Log.d(TAG, ""+newBoardName.length()+ " " + newBoardDescription.length());
                 Log.d(TAG, ""+ (newBoardName.length() > 0 && newBoardDescription.length() > 0));
-                if (newBoardName.length() > 0 && newBoardDescription.length() > 0) {
+                if (newBoardName.length() > 0) {
                     //create Board object and add to list
                     Board board = new Board(newBoardName, newBoardDescription);
                     Log.d(TAG, "onClick: created board= " + board.toString());
@@ -73,28 +73,55 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //if name has no input
                 else {
-                    //dialogBinding.errorText.setText(R.string.board_dialog_error_text);
-                    //dialogBinding.errorText.setVisibility(View.VISIBLE);
+                    dialogBinding.errorText.setText(R.string.board_dialog_error_text);
+                    dialogBinding.errorText.setVisibility(View.VISIBLE);
                 }
             }
         });
 
-        dialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-//                öfter logs benutzen, sind gut zum debuggen
-                Log.d(TAG, "onClick: canceled Dialog");
-            }
-        });
         dialogBuilder.setView(dialogBinding.getRoot());
         newBoardDialog = dialogBuilder.create();
         newBoardDialog.show();
 
     }
 
-    //open board when clicked on CardView
+    //open board when clicked on CardView (onclick in xml)
     public void openBoard(View view) {
         final Intent intent = new Intent(this, BoardActivity.class);
         startActivity(intent);
+    }
+
+    public void createEditBoardDialog(View view, Board board) {
+        final AddBoardDialogBinding dialogBinding = AddBoardDialogBinding.inflate(getLayoutInflater());
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Edit Board " +board.getName());
+
+        final Button button_save = dialogBinding.buttonSave;
+        button_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newBoardName = dialogBinding.popupName.getText().toString().trim();
+                String newBoardDescription = dialogBinding.popupDescription.getText().toString().trim();
+                Log.d(TAG, ""+newBoardName.length()+ " " + newBoardDescription.length());
+                Log.d(TAG, ""+ (newBoardName.length() > 0 && newBoardDescription.length() > 0));
+                if (newBoardName.length() > 0) {
+                    //create Board object and add to list
+                    Board board = new Board(newBoardName, newBoardDescription);
+                    Log.d(TAG, "onClick: created board= " + board.toString());
+                    boardList.add(boardList.size(),board);
+                    boardAdapter.notifyItemInserted(boardList.size() +1);
+                    newBoardDialog.dismiss();
+                }
+                //if name has no input
+                else {
+                    dialogBinding.errorText.setText(R.string.board_dialog_error_text);
+                    dialogBinding.errorText.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        dialogBuilder.setView(dialogBinding.getRoot());
+        newBoardDialog = dialogBuilder.create();
+        newBoardDialog.show();
     }
 }
