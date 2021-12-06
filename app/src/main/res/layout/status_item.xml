@@ -10,7 +10,6 @@
         android:id="@+id/status_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="openBoard"
         app:cardBackgroundColor="#7C673AB7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

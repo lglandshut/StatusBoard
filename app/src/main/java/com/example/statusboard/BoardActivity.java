@@ -31,7 +31,9 @@ public class BoardActivity extends AppCompatActivity {
         recyclerView.setAdapter(statusAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        //ToDo: Titel dynamisch den Board-Namen geben
+        //TODO: 2) Übergebene Paramter auslesen
+//        Mit dynamisch ist ja hier eigentlich gemeint, einen Übergabewert von putExtra() auszulesen
+//        Also wenn du des To Do ausm BoardAdapter löst kannst du hier weiterarbeiten
         this.setTitle("BoardName");
         createBoard();
 

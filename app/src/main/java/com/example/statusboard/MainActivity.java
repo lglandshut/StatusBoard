@@ -57,14 +57,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String newBoardName = dialogBinding.popupName.getText().toString().trim();
                 String newBoardDescription = dialogBinding.popupDescription.getText().toString().trim();
-                Log.d(TAG, ""+newBoardName.length()+ " " + newBoardDescription.length());
-                Log.d(TAG, ""+ (newBoardName.length() > 0 && newBoardDescription.length() > 0));
+                Log.d(TAG, "" + newBoardName.length() + " " + newBoardDescription.length());
+                Log.d(TAG, "" + (newBoardName.length() > 0 && newBoardDescription.length() > 0));
                 if (newBoardName.length() > 0) {
                     //create Board object and add to list
                     Board board = new Board(newBoardName, newBoardDescription);
                     Log.d(TAG, "onClick: created board= " + board.toString());
-                    boardList.add(boardList.size(),board);
-                    boardAdapter.notifyItemInserted(boardList.size() +1);
+                    boardList.add(boardList.size(), board);
+                    boardAdapter.notifyItemInserted(boardList.size() + 1);
                     newBoardDialog.dismiss();
                 }
                 //if name has no input
@@ -81,21 +81,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+//    Keine onClicks aus der XML starten, immer aus der Activity mit einem View.onClickListener()
+//    Die Methode is jetzt im BoardAdapter, kannst hier löschen
     //open board when clicked on CardView (onclick in xml)
-    public void openBoard(View view) {
-        String value="Hello world";
-        final Intent intend = new Intent(this, BoardActivity.class);
-        //TODO: neuer Activity das ausgewählte Board passen
-        //TODO: @Matteo: hier müsste ich Zugriff auf des ausgewählte Board bekommen, aber in der xml kann ich eben keine Paramter übergeben
-        //Deswegen brauch ich des ganze als onclicklistener
-        //intend.putExtra("board",board);
-        startActivity(intend);
-    }
+//    public void openBoard() {
+//        String value = "Hello world";
+//        final Intent intend = new Intent(this, BoardActivity.class);
+//        //Deswegen brauch ich des ganze als onclicklistener
+//        //intend.putExtra("board",board);
+//        startActivity(intend);
+//    }
 
     //edit board when clicked on CardView wrench (oncklick in xml)
     public void createEditBoardDialog(View view) {
-        //TODO: Formular mit Werten des zu bearbeitenden ÅBoards füllen, indem Button an Funtkion übergeben wird
-        //TODO: @Matteo: hier müsste ich Zugriff auf des ausgewählte Board bekommen, aber in der xml kann ich eben keine Paramter übergeben
+        //TODO: 3) Selbes Spiel hier wie bei den ersten beiden To Dos
         //Deswegen brauch ich des ganze als onclicklistener
         final AddBoardDialogBinding dialogBinding = AddBoardDialogBinding.inflate(getLayoutInflater());
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
