@@ -15,11 +15,16 @@ import java.util.List;
 /*
     Adapter for the list of Boards in Main Activity
  */
-public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHolder> {
+public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHolder>  {
+
+    private Context context;
+    private static RecyclerViewClickListener itemListener;
     @NonNull
     private final List<Board> boardList;
 
-    public BoardAdapter(@NonNull List<Board> list) {
+    public BoardAdapter(@NonNull List<Board> list, Context context, RecyclerViewClickListener itemListener) {
+        this.context = context;
+        this.itemListener = itemListener;
         boardList = list;
     }
 
@@ -71,19 +76,12 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
             Context context = itemBinding.getRoot().getContext();
             final Intent intent = new Intent(context, BoardActivity.class);
             //TODO: 1) Parameter an neue Activity übergeben
-            //Deswegen brauch ich des ganze als onclicklistener
-            //intent.putExtra("board",board);
+            intent.putExtra("board",board);
             context.startActivity(intent);
         }
 
-
-        //        Des ist ne convention im ViewHolder die Werte dem Layout zuweisen.
-//        Du hattest des in onBindViewHolder was auch funktioniert, aber kannst es dir angewöhnen,
-//        im ViewHolder ne Methode bind() zu erstellen wo die dein Layout befüllst und die Methode
-//        rufst du dann nur in onBindViewHolder() auf.
+        //Befüllt die board_rows im Hauptmenü
         public void bind(Board board) {
-//            Habs ja schon in der MainActivity geschrieben aber kein bisschen fortgeschrittenerer
-//            Android Entwickler macht onClickListener in der XML. Hier für Big Boi mit Lambda
             itemBinding.getRoot().setOnClickListener(view -> openBoard());
             itemBinding.boardTxt.setText(board.getName());
             itemBinding.descriptionsTxt.setText(board.getDescription());

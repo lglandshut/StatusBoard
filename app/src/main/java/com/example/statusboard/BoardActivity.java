@@ -51,4 +51,5 @@ public class BoardActivity extends AppCompatActivity {
     public static void createBoard() {
 
     }
+
 }

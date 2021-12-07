@@ -17,7 +17,7 @@ import com.example.statusboard.databinding.AddBoardDialogBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerViewClickListener{
 
     private static final String TAG = "StatusBoardApp";
     private ActivityMainBinding binding;
@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    Keine onClicks aus der XML starten, immer aus der Activity mit einem View.onClickListener()
 //    Die Methode is jetzt im BoardAdapter, kannst hier löschen
     //open board when clicked on CardView (onclick in xml)
 //    public void openBoard() {
@@ -124,5 +123,10 @@ public class MainActivity extends AppCompatActivity {
         dialogBuilder.setView(dialogBinding.getRoot());
         newBoardDialog = dialogBuilder.create();
         newBoardDialog.show();
+    }
+
+    @Override
+    public void recyclerViewListClicked(View v, int position) {
+
     }
 }
