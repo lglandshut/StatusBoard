@@ -1,7 +1,6 @@
 package com.example.statusboard;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +16,7 @@ import com.example.statusboard.databinding.AddBoardDialogBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements RecyclerViewClickListener{
+public class MainActivity extends AppCompatActivity implements BoardSelectedCallback {
 
     private static final String TAG = "StatusBoardApp";
     private ActivityMainBinding binding;
@@ -125,8 +124,24 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         newBoardDialog.show();
     }
 
+    /**
+     * Check irgendwie noch nicht so richtig wozu du eigentlich ein Callback brauchst. Du kannst
+     * doch alles ausm BoardAdapter machen und muss nicht dein ausgewähltes Board der MainActivty
+     * übergeben oder überseh ich was?
+     *
+     * Aber an sich ja Callbacks gibts, werden häufig benutzt und wie du schon richtig herausgefunden
+     * hast einfach ein Interface mit der/den Methoden erstellen und dann letztendlich deine
+     * Interface Methoden da aufrufen wo du dein Callback übergeben möchtes und an der Stelle
+     * initalisieren wo du z.B. nen Button clickst oder eben in einer anderen Klasse/Activity
+     * ein Objekt übergeben musst.
+     * siehe: https://stackoverflow.com/questions/3398363/how-to-define-callbacks-in-android
+     *
+     * Reminder: Schau dir mal die Branches genauer an. Du bist die ganze Zeit dabei in correct-solution
+     * zu arbeiten. Ich hab letztes Mal schon im anderen Branch gemerged.
+     * @param board
+     */
     @Override
-    public void recyclerViewListClicked(View v, int position) {
+    public void boardClicked(Board board) {
 
     }
 }

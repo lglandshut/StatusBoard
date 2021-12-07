@@ -17,14 +17,11 @@ import java.util.List;
  */
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHolder>  {
 
-    private Context context;
-    private static RecyclerViewClickListener itemListener;
     @NonNull
     private final List<Board> boardList;
 
-    public BoardAdapter(@NonNull List<Board> list, Context context, RecyclerViewClickListener itemListener) {
-        this.context = context;
-        this.itemListener = itemListener;
+//    Wenn du noch einmal den Context an den Adapter übergibst gibts a Bockfotzn
+    public BoardAdapter(@NonNull List<Board> list) {
         boardList = list;
     }
 
@@ -71,18 +68,21 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
          * Als erstes vlt. mal paar Strings, Ints, etc. übergeben und dann Parcelable anschauen, aber
          * wenn du auf des Parcelable Zeug kein Bock hast sind Strings auch in Ordnung
          */
-        public void openBoard() {
+        public void openBoard(Board clickedBoard) {
             String value = "Hello world";
             Context context = itemBinding.getRoot().getContext();
             final Intent intent = new Intent(context, BoardActivity.class);
             //TODO: 1) Parameter an neue Activity übergeben
-            intent.putExtra("board",board);
+            intent.putExtra("board", clickedBoard);
             context.startActivity(intent);
         }
 
         //Befüllt die board_rows im Hauptmenü
         public void bind(Board board) {
-            itemBinding.getRoot().setOnClickListener(view -> openBoard());
+//            einfach dein Board übergeben und damit in der openBoard() arbeiten
+            itemBinding.getRoot().setOnClickListener(view -> {
+                openBoard(board);
+            });
             itemBinding.boardTxt.setText(board.getName());
             itemBinding.descriptionsTxt.setText(board.getDescription());
         }
