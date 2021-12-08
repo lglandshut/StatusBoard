@@ -8,11 +8,13 @@ public class Status {
 
     @NonNull
     private String name;
+    private String description;
     @NonNull
     private int color;
 
-    public Status(@NonNull String name, @NonNull int color) {
+    public Status(@NonNull String name, String description, @NonNull int color) {
         this.name = name;
+        this.description = description;
         this.color = color;
     }
 

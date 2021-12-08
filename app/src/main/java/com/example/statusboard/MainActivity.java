@@ -50,12 +50,12 @@ public class MainActivity extends AppCompatActivity implements BoardSelectedCall
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setTitle("Create new Board");
 
-        final Button button_save = dialogBinding.buttonSave;
+        final Button button_save = dialogBinding.boardButtonSave;
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String newBoardName = dialogBinding.popupName.getText().toString().trim();
-                String newBoardDescription = dialogBinding.popupDescription.getText().toString().trim();
+                String newBoardName = dialogBinding.boardName.getText().toString().trim();
+                String newBoardDescription = dialogBinding.boardDescription.getText().toString().trim();
                 Log.d(TAG, "" + newBoardName.length() + " " + newBoardDescription.length());
                 Log.d(TAG, "" + (newBoardName.length() > 0 && newBoardDescription.length() > 0));
                 if (newBoardName.length() > 0) {
@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements BoardSelectedCall
                 }
                 //if name has no input
                 else {
-                    dialogBinding.errorText.setText(R.string.board_dialog_error_text);
-                    dialogBinding.errorText.setVisibility(View.VISIBLE);
+                    dialogBinding.boardErrorText.setText(R.string.board_dialog_error_text);
+                    dialogBinding.boardErrorText.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -80,16 +80,6 @@ public class MainActivity extends AppCompatActivity implements BoardSelectedCall
 
     }
 
-//    Die Methode is jetzt im BoardAdapter, kannst hier löschen
-    //open board when clicked on CardView (onclick in xml)
-//    public void openBoard() {
-//        String value = "Hello world";
-//        final Intent intend = new Intent(this, BoardActivity.class);
-//        //Deswegen brauch ich des ganze als onclicklistener
-//        //intend.putExtra("board",board);
-//        startActivity(intend);
-//    }
-
     //edit board when clicked on CardView wrench (oncklick in xml)
     public void createEditBoardDialog(View view) {
         //TODO: 3) Selbes Spiel hier wie bei den ersten beiden To Dos
@@ -99,12 +89,12 @@ public class MainActivity extends AppCompatActivity implements BoardSelectedCall
         dialogBinding.textView.setText("Edit Board");
         //dialogBuilder.setTitle("Edit Board " + board.getName());
 
-        final Button button_save = dialogBinding.buttonSave;
+        final Button button_save = dialogBinding.boardButtonSave;
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String newBoardName = dialogBinding.popupName.getText().toString().trim();
-                String newBoardDescription = dialogBinding.popupDescription.getText().toString().trim();
+                String newBoardName = dialogBinding.boardName.getText().toString().trim();
+                String newBoardDescription = dialogBinding.boardDescription.getText().toString().trim();
                 if (newBoardName.length() > 0) {
                     //Save new values to selected Board
                     //board.setName(newBoardName);
@@ -113,8 +103,8 @@ public class MainActivity extends AppCompatActivity implements BoardSelectedCall
                 }
                 //if name has no input
                 else {
-                    dialogBinding.errorText.setText(R.string.board_dialog_error_text);
-                    dialogBinding.errorText.setVisibility(View.VISIBLE);
+                    dialogBinding.boardErrorText.setText(R.string.board_dialog_error_text);
+                    dialogBinding.boardErrorText.setVisibility(View.VISIBLE);
                 }
             }
         });
